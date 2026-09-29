@@ -1,8 +1,5 @@
 {
-  "name": "ai-photo-editor",
+  "name": "ai-photo-editor-hd-suits",
   "version": "1.0.0",
-  "private": true,
-  "dependencies": {
-    "replicate": "^0.32.1"
-  }
+  "private": true
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>এআই ফটো এডিট - Head Straighten Engine</title>
+    <title>এআই ফটো এডিট - HD Real Suit & Head Straighten</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
@@ -76,7 +76,7 @@
             </button>
             <div>
                 <h1 class="text-base font-bold text-gray-900 leading-tight">এআই ফটো এডিট</h1>
-                <p class="text-[10px] text-amber-600 font-semibold"><i class="fa-solid fa-sparkles"></i> স্মার্ট হেড সোজা করার টুল সক্রিয়</p>
+                <p class="text-[10px] text-emerald-600 font-semibold"><i class="fa-solid fa-check-circle"></i> HD রিয়েল স্যুট মেকার সক্রিয়</p>
             </div>
         </div>
         <div id="headerActions" class="hidden flex items-center gap-2">
@@ -128,10 +128,10 @@
                 </div>
             </div>
 
-            <!-- Smart Neck-Pivoted Head Straightening Control Panel -->
+            <!-- Smart Head Straightening Control Panel -->
             <div id="headStraightenControl" class="w-full bg-[#171e2e] p-3.5 rounded-2xl border border-amber-500/40 mt-3 flex flex-col gap-2.5 shadow-lg">
                 <div class="flex justify-between items-center text-xs font-bold text-amber-400">
-                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-user-gear"></i> শরীর ঠিক রেখে শুধু মাথা সোজা করুন:</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-arrows-spin"></i> শরীর ঠিক রেখে মাথা সোজা করুন:</span>
                     <button onclick="toggleGridLines()" id="gridBtn" class="text-xs bg-gray-800 px-2 py-1 rounded text-gray-300 hover:text-white border border-gray-700">
                         <i class="fa-solid fa-border-top-left"></i> গাইডলাইন
                     </button>
@@ -153,20 +153,44 @@
                 </div>
             </div>
 
-            <!-- Outfit Scale & Position Controls -->
-            <div id="outfitAdjustControls" class="hidden w-full bg-[#171e2e] p-3 rounded-xl border border-gray-800 mt-2 flex flex-col gap-2">
+            <!-- HD Real Outfit Control Panel (Fine adjustment) -->
+            <div id="outfitAdjustControls" class="hidden w-full bg-[#171e2e] p-3.5 rounded-2xl border border-amber-500/30 mt-2 flex flex-col gap-2.5 shadow-lg">
                 <div class="flex justify-between items-center text-xs font-bold text-amber-400">
-                    <span><i class="fa-solid fa-shirt"></i> পোশাক অ্যাডজাস্টমেন্ট:</span>
-                    <button onclick="removeOutfitOverlay()" class="text-red-400 hover:text-red-300 text-xs"><i class="fa-solid fa-trash"></i> পোশাক বাদ দিন</button>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-shirt"></i> HD রিয়েল পোশাক পজিশনিং:</span>
+                    <button onclick="removeOutfitOverlay()" class="text-red-400 hover:text-red-300 text-xs font-semibold"><i class="fa-solid fa-trash"></i> পোশাক সরাব</button>
                 </div>
-                <div class="grid grid-cols-2 gap-2 text-xs">
+
+                <div class="grid grid-cols-2 gap-3 text-xs">
                     <div>
-                        <label class="text-[10px] text-gray-400">সাইজ (Scale)</label>
-                        <input type="range" id="outfitScale" min="0.5" max="2.0" step="0.05" value="1" oninput="updateOutfitTransform()" class="w-full accent-amber-500">
+                        <div class="flex justify-between text-[10px] text-gray-300 mb-1">
+                            <span>পোশাকের সাইজ (Zoom)</span>
+                            <span id="scaleValText">100%</span>
+                        </div>
+                        <input type="range" id="outfitScale" min="0.5" max="2.2" step="0.02" value="1" oninput="updateOutfitTransform()" class="w-full accent-amber-500">
                     </div>
                     <div>
-                        <label class="text-[10px] text-gray-400">উপরে/নিচে (Y-Pos)</label>
-                        <input type="range" id="outfitPosY" min="-150" max="150" step="2" value="0" oninput="updateOutfitTransform()" class="w-full accent-amber-500">
+                        <div class="flex justify-between text-[10px] text-gray-300 mb-1">
+                            <span>উপরে/নিচে (Y-Position)</span>
+                            <span id="posYValText">0px</span>
+                        </div>
+                        <input type="range" id="outfitPosY" min="-180" max="180" step="2" value="0" oninput="updateOutfitTransform()" class="w-full accent-amber-500">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 text-xs">
+                    <div>
+                        <div class="flex justify-between text-[10px] text-gray-300 mb-1">
+                            <span>ডানে/বামে (X-Position)</span>
+                            <span id="posXValText">0px</span>
+                        </div>
+                        <input type="range" id="outfitPosX" min="-100" max="100" step="2" value="0" oninput="updateOutfitTransform()" class="w-full accent-amber-500">
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-[10px] text-gray-300 mb-1">
+                            <span>পোশাকের কোণ (Rotation)</span>
+                            <span id="rotValText">0°</span>
+                        </div>
+                        <input type="range" id="outfitRot" min="-15" max="15" step="0.5" value="0" oninput="updateOutfitTransform()" class="w-full accent-amber-500">
                     </div>
                 </div>
             </div>
@@ -215,6 +239,7 @@
     <!-- Hidden Inputs -->
     <input type="file" id="galleryInput" accept="image/*" class="hidden" onchange="handleFileSelect(event)">
     <input type="file" id="cameraInput" accept="image/*" capture="environment" class="hidden" onchange="handleFileSelect(event)">
+    <input type="file" id="customOutfitInput" accept="image/*" class="hidden" onchange="handleCustomSuitUpload(event)">
 
     <!-- Modals -->
     <div id="cropModal" onclick="closeModalOnBackdrop(event, 'cropModal')" class="fixed inset-0 bg-black/90 z-50 hidden flex flex-col justify-between p-4 cursor-pointer">
@@ -296,23 +321,34 @@
         </div>
     </div>
 
+    <!-- Real HD Suit Overlay Selection Modal -->
     <div id="styleModal" onclick="closeModalOnBackdrop(event, 'styleModal')" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-50 hidden-sheet bottom-sheet flex items-end justify-center cursor-pointer">
         <div onclick="event.stopPropagation()" class="bg-[#f8f9fa] text-gray-900 w-full max-w-md rounded-t-3xl p-5 max-h-[85vh] overflow-y-auto shadow-2xl cursor-default">
             <div class="w-10 h-1 bg-gray-300 rounded-full mx-auto mb-3 cursor-pointer" onclick="closeModal('styleModal')"></div>
-            <h3 class="text-lg font-bold text-gray-900">পোশাক ও ব্যাকগ্রাউন্ড নির্বাচন</h3>
-            <p class="text-xs text-gray-500 mb-4">পোশাক নির্বাচন করুন (ক্যানভাসে সরাসরি ফিট হয়ে যাবে)</p>
+            <h3 class="text-lg font-bold text-gray-900">HD আসল পোশাক ও ব্যাকগ্রাউন্ড</h3>
+            <p class="text-xs text-gray-500 mb-3">বাস্তব ও প্রফেশনাল পাসপোর্ট পোশাক নির্বাচন করুন</p>
 
-            <div class="bg-white p-4 rounded-2xl border border-gray-200 shadow-sm mb-4">
-                <h4 class="text-xs font-bold text-gray-600 mb-3">পোশাক টেমপ্লেট (HD Suit / Outfit Overlay)</h4>
-                <div class="grid grid-cols-3 gap-3" id="outfitGridContainer"></div>
+            <div class="bg-amber-50 border border-amber-200 rounded-xl p-2.5 mb-4 flex items-center justify-between text-xs">
+                <span class="text-amber-800 font-medium"><i class="fa-solid fa-file-arrow-up"></i> নিজস্ব টাই-স্যুট PNG আপলোড করুন:</span>
+                <button onclick="document.getElementById('customOutfitInput').click()" class="bg-amber-500 hover:bg-amber-600 text-white px-2.5 py-1 rounded-lg font-bold text-[11px] shadow">
+                    PNG আপলোড
+                </button>
             </div>
 
-            <div class="bg-white p-4 rounded-2xl border border-gray-200 shadow-sm mb-4">
-                <h4 class="text-xs font-bold text-gray-600 mb-3">ব্যাকগ্রাউন্ড রঙ</h4>
+            <div class="bg-white p-3.5 rounded-2xl border border-gray-200 shadow-sm mb-4">
+                <h4 class="text-xs font-bold text-gray-700 mb-3 flex items-center justify-between">
+                    <span><i class="fa-solid fa-user-tie text-amber-500"></i> HD ফটো রিয়েল স্যুট গ্যালারি</span>
+                    <span class="text-[10px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-semibold">100% Real HD</span>
+                </h4>
+                <div class="grid grid-cols-3 gap-2.5" id="outfitGridContainer"></div>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-2xl border border-gray-200 shadow-sm mb-4">
+                <h4 class="text-xs font-bold text-gray-700 mb-3"><i class="fa-solid fa-palette text-amber-500"></i> ব্যাকগ্রাউন্ড রঙ</h4>
                 <div class="grid grid-cols-5 gap-2.5" id="bgGrid"></div>
             </div>
 
-            <button onclick="closeModal('styleModal')" class="w-full mt-2 py-3 bg-amber-500 text-white font-bold rounded-xl shadow-md">সম্পন্ন</button>
+            <button onclick="closeModal('styleModal')" class="w-full mt-1 py-3 bg-amber-500 text-white font-bold rounded-xl shadow-md">সম্পন্ন</button>
         </div>
     </div>
 
@@ -332,6 +368,8 @@
         let activeOutfitImg = null;
         let outfitScaleVal = 1.0;
         let outfitPosYVal = 0;
+        let outfitPosXVal = 0;
+        let outfitRotVal = 0;
         let showGrid = false;
 
         let headTiltAngle = 0; // -20 deg to +20 deg
@@ -354,12 +392,34 @@
             { code: 'transparent', name: 'স্বচ্ছ (PNG)', pattern: true }
         ];
 
+        // High quality transparent PNG photo suits (Real PNG templates)
         const outfitTemplates = [
             { id: 'none', title: 'মূল পোশাক', icon: 'fa-ban' },
-            { id: 'black_suit', title: 'ব্ল্যাক স্যুট ও টাই', svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><path d="M 50,300 L 80,120 L 115,130 L 150,220 L 185,130 L 220,120 L 250,300 Z" fill="#0f172a"/><path d="M 115,130 L 150,80 L 185,130 L 150,220 Z" fill="#ffffff"/><polygon points="142,85 158,85 153,190 147,190" fill="#dc2626"/><polygon points="140,80 160,80 150,95" fill="#991b1b"/><path d="M 50,300 L 105,125 L 140,210 Z" fill="#1e293b"/><path d="M 250,300 L 195,125 L 160,210 Z" fill="#1e293b"/></svg>` },
-            { id: 'navy_suit', title: 'নেভি ব্লু স্যুট', svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><path d="M 50,300 L 80,120 L 115,130 L 150,220 L 185,130 L 220,120 L 250,300 Z" fill="#1e3a8a"/><path d="M 115,130 L 150,80 L 185,130 L 150,220 Z" fill="#f8fafc"/><polygon points="144,85 156,85 152,185 148,185" fill="#2563eb"/><path d="M 50,300 L 105,125 L 140,210 Z" fill="#1e40af"/><path d="M 250,300 L 195,125 L 160,210 Z" fill="#1e40af"/></svg>` },
-            { id: 'white_shirt', title: 'সাদা শার্ট', svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><path d="M 50,300 L 85,115 L 120,110 L 150,140 L 180,110 L 215,115 L 250,300 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="3"/><path d="M 120,110 L 150,75 L 180,110 Z" fill="#f1f5f9"/><circle cx="150" cy="160" r="4" fill="#94a3b8"/><circle cx="150" cy="200" r="4" fill="#94a3b8"/><circle cx="150" cy="240" r="4" fill="#94a3b8"/></svg>` },
-            { id: 'red_saree', title: 'লাল শাড়ি', svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><path d="M 60,300 L 90,130 L 210,130 L 240,300 Z" fill="#991b1b"/><path d="M 75,300 L 130,130 L 210,300 Z" fill="#7f1d1d"/><path d="M 90,130 L 210,130 L 200,165 L 100,165 Z" fill="#f59e0b"/></svg>` }
+            { 
+                id: 'black_suit_real', 
+                title: 'ব্ল্যাক স্যুট ও টাই (HD)', 
+                imgUrl: 'https://images.rawpixel.com/image_png_800/2024/01/rawpixel-id-14332219-png.png'
+            },
+            { 
+                id: 'navy_suit_real', 
+                title: 'নেভি স্যুট ও রেড টাই', 
+                imgUrl: 'https://images.rawpixel.com/image_png_800/2023/11/rawpixel-id-13391771-png.png'
+            },
+            { 
+                id: 'classic_black_tie', 
+                title: 'ক্ল্যাসিক ব্ল্যাক স্যুট', 
+                imgUrl: 'https://images.rawpixel.com/image_png_800/2023/08/rawpixel-id-12711019-png.png'
+            },
+            { 
+                id: 'formal_shirt_tie', 
+                title: 'ফর্মাল ব্লু স্যুট', 
+                imgUrl: 'https://images.rawpixel.com/image_png_800/2023/11/rawpixel-id-13391770-png.png'
+            },
+            { 
+                id: 'white_formal_shirt', 
+                title: 'সাদা শার্ট ও ব্ল্যাক টাই', 
+                imgUrl: 'https://images.rawpixel.com/image_png_800/2023/11/rawpixel-id-13391775-png.png'
+            }
         ];
 
         window.onload = function() {
@@ -401,11 +461,96 @@
         function renderOutfits() {
             const container = document.getElementById('outfitGridContainer');
             container.innerHTML = outfitTemplates.map((o) => `
-                <div onclick="applyOutfitOverlay('${o.id}')" class="bg-white border hover:border-amber-500 rounded-2xl p-2 flex flex-col items-center justify-center cursor-pointer text-center shadow-sm min-h-[90px]">
-                    ${o.svg ? `<div class="w-12 h-12 mb-1">${o.svg}</div>` : `<i class="fa-solid ${o.icon} text-2xl text-gray-400 my-2"></i>`}
-                    <span class="text-[11px] font-bold text-gray-800 leading-tight">${o.title}</span>
+                <div onclick="applyOutfitOverlay('${o.id}')" class="bg-white border hover:border-amber-500 rounded-2xl p-1.5 flex flex-col items-center justify-center cursor-pointer text-center shadow-sm min-h-[95px]">
+                    ${o.imgUrl ? `<img src="${o.imgUrl}" class="h-16 w-16 object-contain mb-1 rounded-lg bg-gray-50 border border-gray-100" alt="${o.title}">` : `<i class="fa-solid ${o.icon} text-2xl text-gray-400 my-3"></i>`}
+                    <span class="text-[10px] font-bold text-gray-800 leading-tight">${o.title}</span>
                 </div>
             `).join('');
+        }
+
+        function applyOutfitOverlay(outfitId) {
+            if (outfitId === 'none') {
+                removeOutfitOverlay();
+                closeModal('styleModal');
+                return;
+            }
+
+            const item = outfitTemplates.find(o => o.id === outfitId);
+            if (!item || !item.imgUrl) return;
+
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.onload = function() {
+                activeOutfitImg = img;
+                outfitScaleVal = 1.0;
+                outfitPosYVal = 0;
+                outfitPosXVal = 0;
+                outfitRotVal = 0;
+                resetOutfitControlsUI();
+
+                document.getElementById('outfitAdjustControls').classList.remove('hidden');
+                drawMainCanvas();
+                closeModal('styleModal');
+                showToast(`${item.title} ক্যানভাসে যুক্ত করা হয়েছে!`);
+            };
+            img.src = item.imgUrl;
+        }
+
+        function handleCustomSuitUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    activeOutfitImg = img;
+                    outfitScaleVal = 1.0;
+                    outfitPosYVal = 0;
+                    outfitPosXVal = 0;
+                    outfitRotVal = 0;
+                    resetOutfitControlsUI();
+
+                    document.getElementById('outfitAdjustControls').classList.remove('hidden');
+                    drawMainCanvas();
+                    closeModal('styleModal');
+                    showToast("কাস্টম স্যুট সফলভাবে যুক্ত হয়েছে!");
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function resetOutfitControlsUI() {
+            document.getElementById('outfitScale').value = 1.0;
+            document.getElementById('outfitPosY').value = 0;
+            document.getElementById('outfitPosX').value = 0;
+            document.getElementById('outfitRot').value = 0;
+            document.getElementById('scaleValText').innerText = "100%";
+            document.getElementById('posYValText').innerText = "0px";
+            document.getElementById('posXValText').innerText = "0px";
+            document.getElementById('rotValText').innerText = "0°";
+        }
+
+        function removeOutfitOverlay() {
+            activeOutfitImg = null;
+            document.getElementById('outfitAdjustControls').classList.add('hidden');
+            drawMainCanvas();
+            showToast("পোশাক ওভারলে সরানো হয়েছে");
+        }
+
+        function updateOutfitTransform() {
+            outfitScaleVal = parseFloat(document.getElementById('outfitScale').value);
+            outfitPosYVal = parseFloat(document.getElementById('outfitPosY').value);
+            outfitPosXVal = parseFloat(document.getElementById('outfitPosX').value);
+            outfitRotVal = parseFloat(document.getElementById('outfitRot').value);
+
+            document.getElementById('scaleValText').innerText = `${Math.round(outfitScaleVal * 100)}%`;
+            document.getElementById('posYValText').innerText = `${outfitPosYVal}px`;
+            document.getElementById('posXValText').innerText = `${outfitPosXVal}px`;
+            document.getElementById('rotValText').innerText = `${outfitRotVal}°`;
+
+            drawMainCanvas();
         }
 
         // Smart Neck-Pivoted Client-Side Face Straightener
@@ -446,43 +591,6 @@
                 btn.classList.remove('bg-amber-500', 'text-white');
                 btn.classList.add('bg-gray-800', 'text-gray-300');
             }
-        }
-
-        function applyOutfitOverlay(outfitId) {
-            if (outfitId === 'none') {
-                removeOutfitOverlay();
-                closeModal('styleModal');
-                return;
-            }
-
-            const item = outfitTemplates.find(o => o.id === outfitId);
-            if (!item || !item.svg) return;
-
-            const blob = new Blob([item.svg], {type: 'image/svg+xml'});
-            const url = URL.createObjectURL(blob);
-
-            const img = new Image();
-            img.onload = function() {
-                activeOutfitImg = img;
-                document.getElementById('outfitAdjustControls').classList.remove('hidden');
-                drawMainCanvas();
-                closeModal('styleModal');
-                showToast(`${item.title} ক্যানভাসে যুক্ত করা হয়েছে!`);
-            };
-            img.src = url;
-        }
-
-        function removeOutfitOverlay() {
-            activeOutfitImg = null;
-            document.getElementById('outfitAdjustControls').classList.add('hidden');
-            drawMainCanvas();
-            showToast("পোশাক ওভারলে সরানো হয়েছে");
-        }
-
-        function updateOutfitTransform() {
-            outfitScaleVal = parseFloat(document.getElementById('outfitScale').value);
-            outfitPosYVal = parseFloat(document.getElementById('outfitPosY').value);
-            drawMainCanvas();
         }
 
         function handleFileSelect(e) {
@@ -647,47 +755,50 @@
                 offY = (canvas.height - drawH) / 2;
             }
 
-            // Step 1: Draw FULL Body / Torso (Unrotated Base)
+            // Step 1: Draw FULL Person Base
             ctx.drawImage(activeImage, offX, offY, drawW, drawH);
 
-            // Step 2: If Head Straightening Angle is applied, Isolate Head and Pivot at Neck!
+            // Step 2: Head Pivot Adjustment if Head Angle Slider is moved
             if (headTiltAngle !== 0) {
-                const neckY = offY + (drawH * 0.58); // Neck/Throat Pivot Point
+                const neckY = offY + (drawH * 0.58);
                 const neckX = canvas.width / 2;
 
                 ctx.save();
-                // Create an oval/head clip path so body stays 100% still
                 ctx.beginPath();
                 ctx.ellipse(neckX, offY + (drawH * 0.28), drawW * 0.42, drawH * 0.35, 0, 0, Math.PI * 2);
                 ctx.clip();
 
-                // Fill background of head area to prevent glitch
                 if (currentBgColor !== 'transparent') {
                     ctx.fillStyle = currentBgColor;
                     ctx.fillRect(0, 0, canvas.width, canvas.height);
                 }
 
-                // Pivot transform around the Neck
                 ctx.translate(neckX, neckY);
                 ctx.rotate((headTiltAngle * Math.PI) / 180);
                 ctx.translate(-neckX, -neckY);
 
-                // Draw Head Rotated
                 ctx.drawImage(activeImage, offX, offY, drawW, drawH);
                 ctx.restore();
             }
 
             ctx.restore();
 
-            // Draw Outfit Overlay if selected
+            // Step 3: Draw Real HD PNG Suit Overlay with full positioning
             if (activeOutfitImg) {
                 ctx.save();
-                const outfitW = canvas.width * 0.85 * outfitScaleVal;
-                const outfitH = outfitW;
-                const outfitX = (canvas.width - outfitW) / 2;
-                const outfitY = (canvas.height * 0.38) + outfitPosYVal;
+                
+                const outfitW = canvas.width * 0.95 * outfitScaleVal;
+                const outfitH = (activeOutfitImg.height / activeOutfitImg.width) * outfitW;
+                
+                const centerX = (canvas.width / 2) + outfitPosXVal;
+                const centerY = (canvas.height * 0.65) + outfitPosYVal;
 
-                ctx.drawImage(activeOutfitImg, outfitX, outfitY, outfitW, outfitH);
+                ctx.translate(centerX, centerY);
+                if (outfitRotVal !== 0) {
+                    ctx.rotate((outfitRotVal * Math.PI) / 180);
+                }
+
+                ctx.drawImage(activeOutfitImg, -outfitW / 2, -outfitH / 2, outfitW, outfitH);
                 ctx.restore();
             }
         }
