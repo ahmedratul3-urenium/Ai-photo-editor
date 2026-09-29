@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>এআই ফটো এডিট - LivePortrait Vercel Engine</title>
+    <title>এআই ফটো এডিট - Head Straighten Engine</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
@@ -50,8 +50,8 @@
             left: 0;
             width: 100%;
             height: 1.5px;
-            background-color: rgba(239, 68, 68, 0.7);
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.9);
+            background-color: rgba(239, 68, 68, 0.8);
+            border-bottom: 1.5px dashed rgba(255, 255, 255, 0.9);
             pointer-events: none;
         }
         .grid-line-vertical {
@@ -60,8 +60,8 @@
             top: 0;
             width: 1.5px;
             height: 100%;
-            background-color: rgba(239, 68, 68, 0.7);
-            border-right: 1px dashed rgba(255, 255, 255, 0.9);
+            background-color: rgba(239, 68, 68, 0.8);
+            border-right: 1.5px dashed rgba(255, 255, 255, 0.9);
             pointer-events: none;
         }
     </style>
@@ -76,7 +76,7 @@
             </button>
             <div>
                 <h1 class="text-base font-bold text-gray-900 leading-tight">এআই ফটো এডিট</h1>
-                <p class="text-[10px] text-emerald-600 font-semibold"><i class="fa-solid fa-circle-check"></i> LivePortrait AI Engine Active</p>
+                <p class="text-[10px] text-amber-600 font-semibold"><i class="fa-solid fa-sparkles"></i> স্মার্ট হেড সোজা করার টুল সক্রিয়</p>
             </div>
         </div>
         <div id="headerActions" class="hidden flex items-center gap-2">
@@ -122,38 +122,34 @@
                 <div id="guidelineH" class="grid-line-horizontal hidden"></div>
                 <div id="guidelineV" class="grid-line-vertical hidden"></div>
 
-                <!-- Processing Overlay Spinner -->
-                <div id="aiLoader" class="absolute inset-0 bg-black/85 backdrop-blur-sm hidden flex-col items-center justify-center text-white z-20 px-4 text-center">
-                    <div class="w-12 h-12 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mb-3"></div>
-                    <p id="aiProgressText" class="text-xs font-semibold text-amber-400">LivePortrait AI দিয়ে প্রসেস করা হচ্ছে...</p>
-                    <p class="text-[10px] text-gray-400 mt-1">শরীর স্থির রেখে শুধু মাথা সোজা হচ্ছে...</p>
-                </div>
-
                 <!-- Toast Notification -->
                 <div id="toastMessage" class="absolute bottom-3 bg-black/80 text-amber-400 text-xs px-3 py-1.5 rounded-full hidden border border-amber-500/40 z-30">
                     ইফেক্ট প্রয়োগ করা হয়েছে
                 </div>
             </div>
 
-            <!-- Head Straightening Panel (LivePortrait Backend AI) -->
+            <!-- Smart Neck-Pivoted Head Straightening Control Panel -->
             <div id="headStraightenControl" class="w-full bg-[#171e2e] p-3.5 rounded-2xl border border-amber-500/40 mt-3 flex flex-col gap-2.5 shadow-lg">
                 <div class="flex justify-between items-center text-xs font-bold text-amber-400">
-                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-wand-magic-sparkles"></i> AI মাথা সোজা করুন (LivePortrait AI):</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-user-gear"></i> শরীর ঠিক রেখে শুধু মাথা সোজা করুন:</span>
                     <button onclick="toggleGridLines()" id="gridBtn" class="text-xs bg-gray-800 px-2 py-1 rounded text-gray-300 hover:text-white border border-gray-700">
                         <i class="fa-solid fa-border-top-left"></i> গাইডলাইন
                     </button>
                 </div>
 
-                <div class="grid grid-cols-3 gap-2">
-                    <button onclick="requestAIHeadStraighten(-3)" class="bg-gray-800 hover:bg-gray-700 text-gray-200 py-2.5 rounded-xl text-xs font-semibold border border-gray-700 active:scale-95 transition">
-                        <i class="fa-solid fa-rotate-left text-amber-400"></i> বামে ৩° সোজা
-                    </button>
-                    <button onclick="requestAIHeadStraighten(0)" class="bg-amber-500 hover:bg-amber-600 text-white py-2.5 rounded-xl text-xs font-bold shadow active:scale-95 transition">
-                        <i class="fa-solid fa-user-check"></i> অটো সোজা (0°)
-                    </button>
-                    <button onclick="requestAIHeadStraighten(3)" class="bg-gray-800 hover:bg-gray-700 text-gray-200 py-2.5 rounded-xl text-xs font-semibold border border-gray-700 active:scale-95 transition">
-                        <i class="fa-solid fa-rotate-right text-amber-400"></i> ডানে ৩° সোজা
-                    </button>
+                <!-- Slider for Head Tilt -->
+                <div class="flex items-center gap-2">
+                    <button onclick="adjustHeadAngleStep(-0.5)" class="bg-gray-800 hover:bg-gray-700 text-amber-400 w-8 h-8 rounded-lg font-bold text-sm border border-gray-700">-0.5°</button>
+                    <input type="range" id="headAngleSlider" min="-20" max="20" step="0.5" value="0" oninput="onHeadAngleSliderChange(this.value)" class="w-full accent-amber-500">
+                    <button onclick="adjustHeadAngleStep(0.5)" class="bg-gray-800 hover:bg-gray-700 text-amber-400 w-8 h-8 rounded-lg font-bold text-sm border border-gray-700">+0.5°</button>
+                    <span id="headAngleDisplay" class="text-xs font-bold text-amber-400 min-w-[38px] text-center">0.0°</span>
+                </div>
+
+                <!-- Quick Presets -->
+                <div class="flex items-center justify-between gap-1 text-[11px] pt-1">
+                    <button onclick="setHeadAnglePreset(-3.0)" class="bg-gray-800 hover:bg-gray-700 px-2.5 py-1.5 rounded-lg text-gray-300 border border-gray-700">বামে ৩° সোজা</button>
+                    <button onclick="setHeadAnglePreset(0.0)" class="bg-amber-500/20 text-amber-400 hover:bg-amber-500/30 px-3 py-1.5 rounded-lg font-semibold border border-amber-500/40">মূল অবস্থান (0°)</button>
+                    <button onclick="setHeadAnglePreset(3.0)" class="bg-gray-800 hover:bg-gray-700 px-2.5 py-1.5 rounded-lg text-gray-300 border border-gray-700">ডানে ৩° সোজা</button>
                 </div>
             </div>
 
@@ -338,6 +334,8 @@
         let outfitPosYVal = 0;
         let showGrid = false;
 
+        let headTiltAngle = 0; // -20 deg to +20 deg
+
         const sizePresets = [
             { id: '1', title: '২×২ ইঞ্চি (পাসপোর্ট)', desc: 'যুক্তরাষ্ট্র (US), ভারত', ratio: 1.0 },
             { id: '2', title: '৩৫×৪৫ মিমি (ইউরো/UK)', desc: 'যুক্তরাজ্য, ইউরোপ', ratio: 35/45 },
@@ -410,60 +408,25 @@
             `).join('');
         }
 
-        async function requestAIHeadStraighten(angle) {
-            const activeImg = cutoutCanvas || croppedImg || rawSelectedImage;
-            if (!activeImg) return;
+        // Smart Neck-Pivoted Client-Side Face Straightener
+        function onHeadAngleSliderChange(val) {
+            headTiltAngle = parseFloat(val);
+            document.getElementById('headAngleDisplay').innerText = `${headTiltAngle > 0 ? '+' : ''}${headTiltAngle.toFixed(1)}°`;
+            drawMainCanvas();
+        }
 
-            const loader = document.getElementById('aiLoader');
-            document.getElementById('aiProgressText').innerText = "LivePortrait AI দিয়ে শুধু মাথা সোজা হচ্ছে...";
-            loader.classList.remove('hidden');
-            loader.classList.add('flex');
+        function adjustHeadAngleStep(step) {
+            let newVal = headTiltAngle + step;
+            if (newVal > 20) newVal = 20;
+            if (newVal < -20) newVal = -20;
+            document.getElementById('headAngleSlider').value = newVal;
+            onHeadAngleSliderChange(newVal);
+        }
 
-            try {
-                const tempCanvas = document.createElement('canvas');
-                tempCanvas.width = activeImg.width || 600;
-                tempCanvas.height = activeImg.height || 600;
-                const ctx = tempCanvas.getContext('2d');
-                ctx.drawImage(activeImg, 0, 0);
-
-                const base64Img = tempCanvas.toDataURL('image/jpeg', 0.9);
-
-                const response = await fetch('/api/straighten-head', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        image: base64Img,
-                        rollAngle: angle
-                    })
-                });
-
-                const data = await response.json();
-
-                if (data.success && data.resultUrl) {
-                    const aiResultImg = new Image();
-                    aiResultImg.crossOrigin = "anonymous";
-                    aiResultImg.onload = function() {
-                        const resCanvas = document.createElement('canvas');
-                        resCanvas.width = aiResultImg.width;
-                        resCanvas.height = aiResultImg.height;
-                        const resCtx = resCanvas.getContext('2d');
-                        resCtx.drawImage(aiResultImg, 0, 0);
-
-                        cutoutCanvas = resCanvas;
-                        drawMainCanvas();
-                        showToast("AI দিয়ে শুধু মাথা সোজা করা সম্পন্ন!");
-                    };
-                    aiResultImg.src = data.resultUrl;
-                } else {
-                    alert("AI Error: " + (data.error || "মাথা সোজা করতে সমস্যা হয়েছে।"));
-                }
-            } catch (err) {
-                console.error(err);
-                alert("সার্ভার কানেকশন এরর! Vercel-এ API রান করছে কিনা চেক করুন।");
-            } finally {
-                loader.classList.add('hidden');
-                loader.classList.remove('flex');
-            }
+        function setHeadAnglePreset(val) {
+            document.getElementById('headAngleSlider').value = val;
+            onHeadAngleSliderChange(val);
+            showToast(`মাথা ${val}° কোণে সোজা করা হয়েছে`);
         }
 
         function toggleGridLines() {
@@ -531,6 +494,9 @@
                 const img = new Image();
                 img.onload = function() {
                     rawSelectedImage = img;
+                    headTiltAngle = 0;
+                    document.getElementById('headAngleSlider').value = 0;
+                    document.getElementById('headAngleDisplay').innerText = "0.0°";
                     openCropScreen();
                 };
                 img.src = event.target.result;
@@ -658,6 +624,7 @@
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+            // Draw Background Color
             if (currentBgColor !== 'transparent') {
                 ctx.fillStyle = currentBgColor;
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -680,9 +647,39 @@
                 offY = (canvas.height - drawH) / 2;
             }
 
+            // Step 1: Draw FULL Body / Torso (Unrotated Base)
             ctx.drawImage(activeImage, offX, offY, drawW, drawH);
+
+            // Step 2: If Head Straightening Angle is applied, Isolate Head and Pivot at Neck!
+            if (headTiltAngle !== 0) {
+                const neckY = offY + (drawH * 0.58); // Neck/Throat Pivot Point
+                const neckX = canvas.width / 2;
+
+                ctx.save();
+                // Create an oval/head clip path so body stays 100% still
+                ctx.beginPath();
+                ctx.ellipse(neckX, offY + (drawH * 0.28), drawW * 0.42, drawH * 0.35, 0, 0, Math.PI * 2);
+                ctx.clip();
+
+                // Fill background of head area to prevent glitch
+                if (currentBgColor !== 'transparent') {
+                    ctx.fillStyle = currentBgColor;
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                }
+
+                // Pivot transform around the Neck
+                ctx.translate(neckX, neckY);
+                ctx.rotate((headTiltAngle * Math.PI) / 180);
+                ctx.translate(-neckX, -neckY);
+
+                // Draw Head Rotated
+                ctx.drawImage(activeImage, offX, offY, drawW, drawH);
+                ctx.restore();
+            }
+
             ctx.restore();
 
+            // Draw Outfit Overlay if selected
             if (activeOutfitImg) {
                 ctx.save();
                 const outfitW = canvas.width * 0.85 * outfitScaleVal;
@@ -737,6 +734,7 @@
                 croppedImg = null;
                 cutoutCanvas = null;
                 activeOutfitImg = null;
+                headTiltAngle = 0;
             }
         }
     </script>
