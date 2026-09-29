@@ -7,7 +7,6 @@ const replicate = new Replicate({
 });
 
 export default async function handler(req, res) {
-  // CORS Headers
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -32,8 +31,6 @@ export default async function handler(req, res) {
       return res.status(400).json({ success: false, error: 'Image data is required' });
     }
 
-    // LivePortrait AI model for head pose & angle correction
-    // Roll rotates head relative to neck
     const output = await replicate.run(
       "fottoai/live-portrait:32c8141f224b752763294336c2e3532f14691e847c2a78f65e23730766347f3b",
       {
